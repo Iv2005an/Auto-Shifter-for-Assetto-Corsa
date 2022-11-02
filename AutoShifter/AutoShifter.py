@@ -86,17 +86,16 @@ def acUpdate(deltaT):
                 ac.setText(show_mode, "Mode:1.1")
             elif rpm < 2000 and gear > 2:
                 ac.setText(show_mode, "gas = {}, gear = {}".format(gas != 1, gear != 3))
-                if not (gas == 1 and gear == 3):
-                    timer = time.perf_counter()
-                    keyboard.send('ctrl')
-                    ac.setText(show_mode, "Mode:1.2")
-        elif 0.95 < gas:
-            if rpm >= m_rpm * 0.95 and gear > 1 and brake < 0.8 and time.perf_counter() - timer > 1:
                 timer = time.perf_counter()
-                keyboard.send('shift')
-                ac.setText(show_mode, "Mode:2.1")
-            elif rpm < 4500 and gear > 2:
-                if not (gas == 1 and gear == 3):
-                    timer = time.perf_counter()
-                    keyboard.send('ctrl')
-                    ac.setText(show_mode, "Mode:2.2")
+                keyboard.send('ctrl')
+                ac.setText(show_mode, "Mode:1.2")
+    elif 0.95 < gas:
+        if rpm >= m_rpm * 0.95 and gear > 1 and brake < 0.8 and time.perf_counter() - timer > 1:
+            timer = time.perf_counter()
+            keyboard.send('shift')
+            ac.setText(show_mode, "Mode:2.1")
+        elif rpm < 4500 and gear > 2:
+            if not (gas == 1 and gear == 3):
+                timer = time.perf_counter()
+                keyboard.send('ctrl')
+                ac.setText(show_mode, "Mode:2.2")
