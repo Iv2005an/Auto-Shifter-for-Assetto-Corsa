@@ -1,18 +1,19 @@
 import ac
 import acsys
-import keyboard
 import time
 import sys
 import os
 import platform
-from sim_info import info
 
 if platform.architecture()[0] == "64bit":
-    sys_dir = "stdlib64"
+    sysdir = os.path.dirname(__file__) + '/stdlib64'
 else:
-    sys_dir = "stdlib"
+    sysdir = os.path.dirname(__file__) + '/stdlib'
+sys.path.insert(0, sysdir)
+os.environ['PATH'] = os.environ['PATH'] + ";."
+import keyboard
+from sim_info import info
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), sys_dir))
 x_app = 200
 y_app = 200
 
@@ -65,12 +66,12 @@ def acUpdate(deltaT):
 
     if on:
         if gas <= 0.95:
-            if rpm >= 3000 and gear > 1 and brake < 0.8 and time.perf_counter() - timer > 1:
+            if rpm >= 3200 and gear > 1 and brake < 0.8 and time.perf_counter() - timer > 1:
                 timer = time.perf_counter()
                 keyboard.send('shift')
                 if debug:
                     ac.setText(show_mode, "Last_mode:1.shift")
-            elif rpm < 2000 and gear > 2:
+            elif rpm < 1500 and gear > 2:
                 timer = time.perf_counter()
                 keyboard.send('ctrl')
                 if debug:
@@ -81,7 +82,7 @@ def acUpdate(deltaT):
                 keyboard.send('shift')
                 if debug:
                     ac.setText(show_mode, "Last_mode:2.shift")
-            elif rpm < 4500 and gear > 2:
+            elif rpm < 4000 and gear > 2:
                 if not (gas == 1 and gear == 3):
                     timer = time.perf_counter()
                     keyboard.send('ctrl')
